@@ -1,0 +1,936 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>พระบาทสมเด็จพระจุลจอมเกล้าเจ้าอยู่หัว รัชกาลที่ 5</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f8f9fa;
+        }
+
+        /* Header Navigation */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 15px 0;
+            z-index: 1000;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 30px;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #333;
+            cursor: pointer;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+        }
+
+        .nav-menu a {
+            text-decoration: none;
+            color: #666;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            position: relative;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+
+        .nav-menu a:hover {
+            color: #007bff;
+        }
+
+        .nav-menu a.active {
+            color: #333;
+            font-weight: 600;
+        }
+
+        .nav-menu a.active::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: #007bff;
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 15px;
+        }
+
+        .social-icons a {
+            color: #666;
+            font-size: 1.2rem;
+            transition: color 0.3s ease;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .social-icons a:hover {
+            color: #007bff;
+            transform: scale(1.2);
+        }
+
+        /* Main Content */
+        .main-container {
+            margin-top: 80px;
+            height: calc(100vh - 80px);
+            display: flex;
+            position: relative;
+        }
+
+        .content-section {
+            flex: 1;
+            padding: 60px 50px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            background: #fff;
+            position: relative;
+            overflow-y: auto;
+        }
+
+        .image-section {
+            flex: 1;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .slide-content {
+            opacity: 0;
+            transform: translateX(-30px);
+            transition: all 0.6s ease;
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            padding-top: 20px;
+        }
+
+        .slide-content.active {
+            opacity: 1;
+            transform: translateX(0);
+            position: relative;
+        }
+
+        .slide-title {
+            font-size: 2.8rem;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 25px;
+            line-height: 1.2;
+            text-align: center;
+        }
+
+        .slide-subtitle {
+            font-size: 1.3rem;
+            color: #666;
+            margin-bottom: 30px;
+            text-align: center;
+            font-weight: 500;
+        }
+
+        .slide-description {
+            font-size: 1.05rem;
+            color: #555;
+            margin-bottom: 25px;
+            line-height: 1.8;
+            text-align: justify;
+        }
+
+        .slide-list {
+            margin: 20px 0;
+            padding-left: 20px;
+        }
+
+        .slide-list li {
+            font-size: 1.05rem;
+            color: #555;
+            margin-bottom: 10px;
+            line-height: 1.6;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 12px 30px;
+            background: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            align-self: center;
+            cursor: pointer;
+            border: none;
+            font-size: 0.95rem;
+            margin-top: 20px;
+        }
+
+        .cta-button:hover {
+            background: #0056b3;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 123, 255, 0.3);
+        }
+
+        /* Credit section styling */
+        .credit-section {
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        .credit-title {
+            font-size: 2.5rem;
+            color: #333;
+            margin-bottom: 30px;
+        }
+
+        .credit-content {
+            font-size: 1.1rem;
+            color: #666;
+            line-height: 1.8;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .student-info {
+            background: rgba(0, 123, 255, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border-left: 4px solid #007bff;
+        }
+
+        /* Image slides */
+        .image-slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 0.6s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .image-slide.active {
+            opacity: 1;
+        }
+
+        .image-slide img {
+            max-width: 85%;
+            max-height: 85%;
+            object-fit: contain;
+            border-radius: 10px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Different background gradients for each slide */
+        .image-slide.bg-1 {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .image-slide.bg-2 {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        }
+
+        .image-slide.bg-3 {
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+        }
+
+        .image-slide.bg-4 {
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
+        }
+
+        .image-slide.bg-5 {
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+        }
+
+        .image-slide.bg-6 {
+            background: linear-gradient(135deg, #a8caba 0%, #5d4e75 100%);
+        }
+
+        .image-slide.bg-7 {
+            background: linear-gradient(135deg, #d299c2 0%, #fef9d7 100%);
+        }
+
+        /* Navigation Controls */
+        .nav-controls {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            z-index: 100;
+        }
+
+        .nav-arrow {
+            width: 50px;
+            height: 50px;
+            border: 2px solid rgba(255, 255, 255, 0.7);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            user-select: none;
+        }
+
+        .nav-arrow:hover {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: white;
+            transform: scale(1.1);
+        }
+
+        .nav-arrow svg {
+            width: 20px;
+            height: 20px;
+            fill: white;
+            pointer-events: none;
+        }
+
+        .slide-dots {
+            display: flex;
+            gap: 8px;
+        }
+
+        .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            user-select: none;
+        }
+
+        .dot:hover {
+            background: rgba(255, 255, 255, 0.8);
+            transform: scale(1.1);
+        }
+
+        .dot.active {
+            background: white;
+            transform: scale(1.3);
+        }
+
+        /* Page counter */
+        .page-counter {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.5);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            z-index: 100;
+        }
+
+        /* Progress bar */
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background: #007bff;
+            z-index: 1001;
+            transition: width 0.6s ease;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .main-container {
+                flex-direction: column;
+                height: auto;
+            }
+
+            .content-section {
+                padding: 40px 30px;
+            }
+
+            .image-section {
+                height: 50vh;
+                min-height: 400px;
+            }
+
+            .slide-title {
+                font-size: 2.2rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: none;
+            }
+
+            .content-section {
+                padding: 30px 20px;
+            }
+
+            .slide-title {
+                font-size: 1.8rem;
+            }
+
+            .slide-description {
+                font-size: 1rem;
+            }
+
+            .nav-controls {
+                bottom: 20px;
+            }
+        }
+
+        /* Thai font optimization */
+        @import url('https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Sarabun', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .thai-text {
+            font-family: 'Sarabun', sans-serif;
+            line-height: 1.8;
+        }
+
+        /* Button feedback */
+        .button-feedback {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            z-index: 2000;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .button-feedback.show {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+    <!-- Progress Bar -->
+    <div class="progress-bar" id="progressBar"></div>
+
+    <!-- Button Feedback -->
+    <div class="button-feedback" id="feedback"></div>
+
+    <!-- Header Navigation -->
+    <header class="header">
+        <div class="nav-container">
+            <div class="logo" onclick="showFeedback('Logo clicked!')">👑 รัชกาลที่ 5</div>
+            <nav>
+                <ul class="nav-menu">
+                    <li><a href="#" class="active" onclick="showFeedback('ปก clicked!')">ปก</a></li>
+                    <li><a href="#" onclick="showFeedback('ประวัติย่อ clicked!')">ประวัติย่อ</a></li>
+                    <li><a href="#" onclick="showFeedback('พระราชกรณียกิจ clicked!')">พระราชกรณียกิจ</a></li>
+                    <li><a href="#" onclick="showFeedback('การพัฒนาประเทศ clicked!')">การพัฒนาประเทศ</a></li>
+                    <li><a href="#" onclick="showFeedback('ผลงานปัจจุบัน clicked!')">ผลงานปัจจุบัน</a></li>
+                    <li><a href="#" onclick="showFeedback('สรุป clicked!')">สรุป</a></li>
+                    <li><a href="#" onclick="showFeedback('เครดิต clicked!')">เครดิต</a></li>
+                </ul>
+            </nav>
+            <div class="social-icons">
+                <a href="#" onclick="showFeedback('Facebook clicked!')">📘</a>
+                <a href="#" onclick="showFeedback('Instagram clicked!')">📷</a>
+                <a href="#" onclick="showFeedback('Twitter clicked!')">🐦</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="main-container">
+        <!-- Page Counter -->
+        <div class="page-counter" id="pageCounter">1 / 7</div>
+
+        <!-- Content Section -->
+        <div class="content-section">
+            <!-- Page 1: ปก (Cover) -->
+            <div class="slide-content active" id="slide-1">
+                <h1 class="slide-title thai-text">พระบาทสมเด็จพระจุลจอมเกล้าเจ้าอยู่หัว</h1>
+                <p class="slide-subtitle thai-text">รัชกาลที่ 5 แห่งพระบรมราชจักรีวงศ์</p>
+                <p class="slide-subtitle thai-text">"พระมหากษัตริย์ผู้ทรงปฏิรูป"</p>
+                <div class="slide-description thai-text" style="text-align: center; margin-top: 40px;">
+                    <p style="font-size: 1.2rem; color: #666; margin-bottom: 20px;">
+                        การศึกษาประวัติศาสตร์และพระราชกรณียกิจ<br>
+                        ของพระมหากษัตริย์ผู้ทรงนำประเทศไทยสู่ความทันสมัย
+                    </p>
+                    <p style="font-size: 1rem; color: #888;">
+                        พ.ศ. 2396 - 2453 (ค.ศ. 1853 - 1910)<br>
+                        ครองราชย์ 42 ปี
+                    </p>
+                </div>
+                <button class="cta-button" onclick="showFeedback('เริ่มการศึกษา!')">เริ่มการศึกษา</button>
+            </div>
+
+            <!-- Page 2: ประวัติย่อ -->
+            <div class="slide-content" id="slide-2">
+                <h1 class="slide-title thai-text">ประวัติย่อ</h1>
+                <div class="slide-description thai-text">
+                    <p><strong>พระนามเต็ม:</strong> สมเด็จพระเจ้าลูกยาเธอ เจ้าฟ้าจุฬาลงกรณ์ บดินทรเทพยมหามกุฎ บุรุษรัตนราชรวิวงศ์ วรุตมพงศ์ บริพัตร ศิริวัฒนราชกุมาร</p>
+                    
+                    <p><strong>ประสูติ:</strong> วันอังคารที่ 20 กันยายน พ.ศ. 2396 ณ พระราชวังบวรสถานมงคล</p>
+                    
+                    <p><strong>พระราชบิดา:</strong> พระบาทสมเด็จพระจอมเกล้าเจ้าอยู่หัว (รัชกาลที่ 4)</p>
+                    
+                    <p><strong>พระราชมารดา:</strong> สมเด็จพระเทพศิรินทราบรมราชินี</p>
+                    
+                    <p><strong>การขึ้นครองราชย์:</strong> วันที่ 1 ตุลาคม พ.ศ. 2411 ในพระชนมายุ 15 พรรษา โดยมีสมเด็จเจ้าพระยาศรีสุริยวงศ์เป็นผู้สำเร็จราชการ จนถึงวันที่ 16 พฤศจิกายน พ.ศ. 2416 จึงทรงปกครองด้วยพระองค์เอง</p>
+                    
+                    <p><strong>การศึกษา:</strong> ทรงได้รับการศึกษาทั้งแบบไทยและสากล ได้แก่ ภาษาไทย ภาษาอังกฤษ ภาษามคธ รัฐศาสตร์ ประวัติศาสตร์ ภูมิศาสตร์ คณิตศาสตร์ และศิลปการต่อสู้</p>
+                </div>
+                <button class="cta-button" onclick="showFeedback('ดูพระราชกรณียกิจ!')">ดูพระราชกรณียกิจ</button>
+            </div>
+
+            <!-- Page 3: พระราชกรณียกิจหลัก -->
+            <div class="slide-content" id="slide-3">
+                <h1 class="slide-title thai-text">พระราชกรณียกิจหลัก</h1>
+                <div class="slide-description thai-text">
+                    <p><strong>1. การยกเลิกระบบทาส (พ.ศ. 2417-2448)</strong></p>
+                    <p>ทรงยกเลิกระบบทาสแบบค่อยเป็นค่อยไป เพื่อไม่ให้เกิดความวุ่นวายทางเศรษฐกิจและสังคม</p>
+                    
+                    <p><strong>2. การปฏิรูประบบการปกครอง</strong></p>
+                    <p>ทรงจัดตั้งระบบกระทรวงแบบใหม่ แบ่งเป็น 12 กระทรวง และสร้างระบบราชการสมัยใหม่</p>
+                    
+                    <p><strong>3. การพัฒนาการศึกษา</strong></p>
+                    <p>ทรงก่อตั้งโรงเรียนและมหาวิทยาลัย ส่งเสริมการศึกษาสำหรับประชาชนทุกชั้น</p>
+                    
+                    <p><strong>4. การพัฒนาโครงสร้างพื้นฐาน</strong></p>
+                    <p>ทรงสร้างทางรถไฟสายแรกของประเทศ ระบบโทรเลข และปรับปรุงระบบคมนาคม</p>
+                    
+                    <p><strong>5. การทูตและรักษาเอกราช</strong></p>
+                    <p>ทรงใช้ภูมิปัญญาทางการทูตเพื่อรักษาเอกราชของประเทศในยุคจักรวรรดินิยม</p>
+                </div>
+                <button class="cta-button" onclick="showFeedback('ดูการพัฒนาประเทศ!')">ดูการพัฒนาประเทศ</button>
+            </div>
+
+            <!-- Page 4: การพัฒนาประเทศในด้านต่าง ๆ -->
+            <div class="slide-content" id="slide-4">
+                <h1 class="slide-title thai-text">การพัฒนาประเทศในด้านต่าง ๆ</h1>
+                <div class="slide-description thai-text">
+                    <p><strong>ด้านการศึกษา:</strong></p>
+                    <ul class="slide-list">
+                        <li>ก่อตั้งโรงเรียนสวนกุหลาบวิทยาลัย (พ.ศ. 2421)</li>
+                        <li>จัดตั้งกรมศึกษาธิการ</li>
+                        <li>ส่งนักเรียนไปศึกษาต่อในต่างประเทศ</li>
+                    </ul>
+                    
+                    <p><strong>ด้านการแพทย์และสาธารณสุข:</strong></p>
+                    <ul class="slide-list">
+                        <li>ก่อตั้งโรงพยาบาลศิริราช (พ.ศ. 2431)</li>
+                        <li>จัดตั้งวิทยาลัยแพทยศาสตร์</li>
+                        <li>ป้องกันและควบคุมโรคระบาด</li>
+                    </ul>
+                    
+                    <p><strong>ด้านคมนาคมและสื่อสาร:</strong></p>
+                    <ul class="slide-list">
+                        <li>สร้างทางรถไฟสายกรุงเทพฯ-นครราชสีมา</li>
+                        <li>จัดตั้งระบบไปรษณีย์</li>
+                        <li>สร้างถนนและสะพาน</li>
+                    </ul>
+                    
+                    <p><strong>ด้านเศรษฐกิจ:</strong></p>
+                    <ul class="slide-list">
+                        <li>ปรับปรุงระบบภาษีอากร</li>
+                        <li>ส่งเสริมการค้าขายกับต่างประเทศ</li>
+                        <li>จัดตั้งธนาคารแห่งแรกของประเทศ</li>
+                    </ul>
+                </div>
+                <button class="cta-button" onclick="showFeedback('ดูผลงานปัจจุบัน!')">ดูผลงานปัจจุบัน</button>
+            </div>
+
+            <!-- Page 5: ผลงานที่ยังเห็นในปัจจุบัน -->
+            <div class="slide-content" id="slide-5">
+                <h1 class="slide-title thai-text">ผลงานที่ยังเห็นในปัจจุบัน</h1>
+                <div class="slide-description thai-text">
+                    <p><strong>สถาบันการศึกษา:</strong></p>
+                    <ul class="slide-list">
+                        <li>โรงเรียนสวนกุหลาบวิทยาลัย - ยังคงเป็นสถาบันการศึกษาชั้นนำ</li>
+                        <li>จุฬาลงกรณ์มหาวิทยาลัย - มหาวิทยาลัยแห่งแรกของประเทศ</li>
+                        <li>ระบบการศึกษาแบบสมัยใหม่ที่ทรงวางรากฐาน</li>
+                    </ul>
+                    
+                    <p><strong>สถาบันการแพทย์:</strong></p>
+                    <ul class="slide-list">
+                        <li>โรงพยาบาลศิริราช - โรงพยาบาลชั้นนำของประเทศ</li>
+                        <li>คณะแพทยศาสตร์ศิริราชพยาบาล</li>
+                        <li>ระบบสาธารณสุขสมัยใหม่</li>
+                    </ul>
+                    
+                    <p><strong>โครงสร้างพื้นฐาน:</strong></p>
+                    <ul class="slide-list">
+                        <li>เส้นทางรถไฟที่ทรงริเริ่ม ยังคงใช้งานและขยายต่อ</li>
+                        <li>ระบบไปรษณีย์ไทย</li>
+                        <li>สะพานและถนนหลายสาย</li>
+                    </ul>
+                    
+                    <p><strong>อนุสาวรีย์และสถานที่ระลึก:</strong></p>
+                    <ul class="slide-list">
+                        <li>อนุสาวรีย์พระบาทสมเด็จพระจุลจอมเกล้าเจ้าอยู่หัว ณ พลับพลาไชย</li>
+                        <li>วันปิยมหาราช (23 ตุลาคม) - วันหยุดราชการ</li>
+                        <li>พิพิธภัณฑ์และแหล่งเรียนรู้ต่าง ๆ</li>
+                    </ul>
+                </div>
+                <button class="cta-button" onclick="showFeedback('ดูสรุป!')">ดูสรุป</button>
+            </div>
+
+            <!-- Page 6: สรุป + ความรู้สึก/ข้อคิด -->
+            <div class="slide-content" id="slide-6">
+                <h1 class="slide-title thai-text">สรุป + ความรู้สึก/ข้อคิด</h1>
+                <div class="slide-description thai-text">
+                    <p><strong>สรุปพระราชกรณียกิจ:</strong></p>
+                    <p>พระบาทสมเด็จพระจุลจอมเกล้าเจ้าอยู่หัว ทรงเป็นพระมหากษัตริย์ที่ทรงมีวิสัยทัศน์ในการพัฒนาประเทศ ทรงนำการเปลี่ยนแปลงที่สำคัญมาสู่สยาม ทั้งการยกเลิกระบบทาส การปฏิรูประบบการปกครอง และการพัฒนาในด้านต่าง ๆ ที่ทำให้ประเทศไทยสามารถรักษาเอกราชได้ในยุคที่ประเทศเพื่อนบ้านตกเป็นอาณานิคม</p>
+                    
+                    <p><strong>ข้อคิดและความรู้สึก:</strong></p>
+                    <p>การศึกษาประวัติของรัชกาลที่ 5 ทำให้เห็นถึงความสำคัญของการมีผู้นำที่มีวิสัยทัศน์และความกล้าหาญในการเปลี่ยนแปลง พระองค์ทรงแสดงให้เห็นว่าการปฏิรูปที่แท้จริงต้องคำนึงถึงผลกระทบต่อประชาชนและความมั่นคงของประเทศ</p>
+                    
+                    <p><strong>บทเรียนสำหรับปัจจุบัน:</strong></p>
+                    <ul class="slide-list">
+                        <li>การศึกษาเป็นรากฐานสำคัญของการพัฒนาประเทศ</li>
+                        <li>การปฏิรูปต้องทำอย่างค่อยเป็นค่อยไปและมีเหตุผล</li>
+                        <li>การรักษาเอกราชต้องใช้ทั้งภูมิปัญญาและการปรับตัว</li>
+                        <li>ผู้นำต้องมีความเสียสละเพื่อส่วนรวม</li>
+                    </ul>
+                    
+                    <p style="font-style: italic; text-align: center; margin-top: 30px; color: #666;">
+                        "พระองค์ทรงเป็นแบบอย่างของผู้นำที่ทรงรักประชาชนและประเทศชาติ<br>
+                        พระราชกรณียกิจของพระองค์จะคงอยู่ในใจของคนไทยตลอดไป"
+                    </p>
+                </div>
+                <button class="cta-button" onclick="showFeedback('ดูเครดิต!')">ดูเครดิต</button>
+            </div>
+
+            <!-- Page 7: เครดิต (Credits) -->
+            <div class="slide-content credit-section" id="slide-7">
+                <h1 class="credit-title thai-text">ผู้จัดทำ</h1>
+                <div class="credit-content thai-text">
+                    <div class="student-info">
+                        <p style="font-size: 1.3rem; font-weight: 600; margin-bottom: 15px;">
+                            ชื่อ-นามสกุล: 
+                            นาย ภคชนม์ บุญศาสตร์ เลขที่ 1 <br>
+                            นาย ธันยพัฒน์  สกุลโพน เลขที่ 4 <br>
+                            นาย ปองคุณ  คำเต็ม เลขที่ 6 <br>
+                            นาย พลธร  สุวรรณไตร เลขที่ 7 <br> 
+                            นาย กฤติกุล  สงนอก เลขที่ 10 <br>
+                            นาย พิเชษฐ์  แป้นแก้ว เลขที่ 11 <br>
+                            นาย พุฒิพงศ์  วิเชียรชัย เลขที่ 16 <br>
+                            นาย กฤตยชญ์   สมท่า เลขที่ 17 <br>
+                        </p>
+                        <p style="font-size: 1.1rem; margin-bottom: 10px;">
+                            ชั้น: ม.5/5
+                        </p>
+                        <p style="font-size: 1.1rem; margin-bottom: 10px;">
+                            โรงเรียน: ปราจิณราษฎรอํารุง
+                        </p>
+                        <p style="font-size: 1.1rem;">
+                            วิชา: ประวัติศาสตร์ไทย
+                        </p>
+                    </div>
+                    
+                    <p style="margin: 30px 0; font-size: 1.1rem;">
+                        <strong>แหล่งข้อมูลอ้างอิง:</strong>
+                    </p>
+                    <ul style="text-align: left; max-width: 500px; margin: 0 auto;">
+                        <li>พระราชพงศาวดารกรุงรัตนกอสินทร์ รัชกาลที่ 5</li>
+                        <li>หอจดหมายเหตุแห่งชาติ</li>
+                        <li>พิพิธภัณฑ์พระบาทสมเด็จพระจุลจอมเกล้าเจ้าอยู่หัว</li>
+                        <li>สำนักงานพระพุทธศาสนาแห่งชาติ</li>
+                        <li>เว็บไซต์ราชกิจจานุเบกษา</li>
+                    </ul>
+                    
+                    <p style="margin-top: 40px; font-size: 1rem; color: #888;">
+                        จัดทำขึ้นเพื่อการศึกษาและเผยแพร่ความรู้เกี่ยวกับประวัติศาสตร์ไทย<br>
+                        © 2024 - งานนำเสนอประวัติศาสตร์รัชกาลที่ 5
+                    </p>
+                </div>
+                <button class="cta-button" onclick="showFeedback('ขอบคุณที่ศึกษา!')">เสร็จสิ้น</button>
+            </div>
+        </div>
+
+        <!-- Image Section -->
+        <div class="image-section">
+            <div class="image-slide active bg-1" id="image-1">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Chulalongkorn_LoC.jpg/400px-Chulalongkorn_LoC.jpg" alt="พระบาทสมเด็จพระจุลจอมเกล้าเจ้าอยู่หัว">
+            </div>
+            <div class="image-slide bg-2" id="image-2">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1c/King_Chulalongkorn_portrait_photograph.jpg/400px-King_Chulalongkorn_portrait_photograph.jpg" alt="พระบรมรูป รัชกาลที่ 5">
+            </div>
+            <div class="image-slide bg-3" id="image-3">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8a/Chulalongkorn_in_uniform.jpg/400px-Chulalongkorn_in_uniform.jpg" alt="พระบาทสมเด็จพระจุลจอมเกล้าเจ้าอยู่หัว ในพระราชพิธี">
+            </div>
+            <div class="image-slide bg-4" id="image-4">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/50/King_Chulalongkorn_Coronation.jpg/400px-King_Chulalongkorn_Coronation.jpg" alt="พระราชพิธีบรมราชาภิเษก">
+            </div>
+            <div class="image-slide bg-5" id="image-5">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a8/Chulalongkorn_and_family.jpg/400px-Chulalongkorn_and_family.jpg" alt="พระราชวงศ์">
+            </div>
+            <div class="image-slide bg-6" id="image-6">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Chulalongkorn_European_tour.jpg/400px-Chulalongkron_European_tour.jpg" alt="การเสด็จประพาสยุโรป">
+            </div>
+            <div class="image-slide bg-7" id="image-7">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/King_Chulalongkorn_statue.jpg/400px-King_Chulalongkorn_statue.jpg" alt="อนุสาวรีย์พระบาทสมเด็จพระจุลจอมเกล้าเจ้าอยู่หัว">
+            </div>
+        </div>
+
+        <!-- Navigation Controls -->
+        <div class="nav-controls">
+            <div class="nav-arrow" id="prev-btn">
+                <svg viewBox="0 0 24 24">
+                    <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/>
+                </svg>
+            </div>
+            
+            <div class="slide-dots">
+                <div class="dot active" data-slide="0"></div>
+                <div class="dot" data-slide="1"></div>
+                <div class="dot" data-slide="2"></div>
+                <div class="dot" data-slide="3"></div>
+                <div class="dot" data-slide="4"></div>
+                <div class="dot" data-slide="5"></div>
+                <div class="dot" data-slide="6"></div>
+            </div>
+            
+            <div class="nav-arrow" id="next-btn">
+                <svg viewBox="0 0 24 24">
+                    <path d="M8.59 16.59L10 18l6-6-6-6-1.41 1.41L13.17 12z"/>
+                </svg>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        const totalSlides = 7;
+
+        const slideContents = document.querySelectorAll('.slide-content');
+        const imageSlides = document.querySelectorAll('.image-slide');
+        const dots = document.querySelectorAll('.dot');
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+        const pageCounter = document.getElementById('pageCounter');
+        const progressBar = document.getElementById('progressBar');
+
+        // Feedback function
+        function showFeedback(message) {
+            const feedback = document.getElementById('feedback');
+            feedback.textContent = message;
+            feedback.classList.add('show');
+            
+            setTimeout(() => {
+                feedback.classList.remove('show');
+            }, 2000);
+        }
+
+        function updateProgress() {
+            const progress = ((currentSlide + 1) / totalSlides) * 100;
+            progressBar.style.width = progress + '%';
+        }
+
+        function updatePageCounter() {
+            pageCounter.textContent = `${currentSlide + 1} / ${totalSlides}`;
+        }
+
+        function updateNavMenu() {
+            const navLinks = document.querySelectorAll('.nav-menu a');
+            navLinks.forEach((link, index) => {
+                link.classList.remove('active');
+                if (index === currentSlide) {
+                    link.classList.add('active');
+                }
+            });
+        }
+
+        function showSlide(index) {
+            // Ensure index is within bounds
+            if (index < 0) index = totalSlides - 1;
+            if (index >= totalSlides) index = 0;
+
+            // Hide all slides
+            slideContents.forEach(slide => slide.classList.remove('active'));
+            imageSlides.forEach(slide => slide.classList.remove('active'));
+            dots.forEach(dot => dot.classList.remove('active'));
+
+            // Show current slide
+            slideContents[index].classList.add('active');
+            imageSlides[index].classList.add('active');
+            dots[index].classList.add('active');
+
+            currentSlide = index;
+            
+            // Update UI elements
+            updateProgress();
+            updatePageCounter();
+            updateNavMenu();
+            
+            // Show feedback
+            const pageNames = [
+                'ปก', 'ประวัติย่อ', 'พระราชกรณียกิจหลัก', 'การพัฒนาประเทศ', 
+                'ผลงานปัจจุบัน', 'สรุป + ข้อคิด', 'เครดิต'
+            ];
+            showFeedback(`หน้า ${index + 1}: ${pageNames[index]}`);
+        }
+
+        function nextSlide() {
+            const next = (currentSlide + 1) % totalSlides;
+            showSlide(next);
+        }
+
+        function prevSlide() {
+            const prev = (currentSlide - 1 + totalSlides) % totalSlides;
+            showSlide(prev);
+        }
+
+        // Event listeners
+        if (nextBtn) {
+            nextBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                nextSlide();
+            });
+        }
+
+        if (prevBtn) {
+            prevBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                prevSlide();
+            });
+        }
+
+        // Dot navigation
+        dots.forEach((dot, index) => {
+            dot.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                showSlide(index);
+            });
+        });
+
+        // Menu navigation
+        document.querySelectorAll('.nav-menu a').forEach((link, index) => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                showSlide(index);
+            });
+        });
+
+        // Auto-slide every 12 seconds (longer for reading)
+        let autoSlideInterval = setInterval(nextSlide, 12000);
+
+        // Pause auto-slide on hover
+        const mainContainer = document.querySelector('.main-container');
+        mainContainer.addEventListener('mouseenter', () => {
+            clearInterval(autoSlideInterval);
+        });
+
+        mainContainer.addEventListener('mouseleave', () => {
+            autoSlideInterval = setInterval(nextSlide, 12000);
+        });
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft') {
+                e.preventDefault();
+                prevSlide();
+            }
+            if (e.key === 'ArrowRight') {
+                e.preventDefault();
+                nextSlide();
+            }
+            if (e.key === 'Home') {
+                e.preventDefault();
+                showSlide(0);
+            }
+            if (e.key === 'End') {
+                e.preventDefault();
+                showSlide(totalSlides - 1);
+            }
+        });
+
+        // Touch/swipe support for mobile
+        let startX = 0;
+        let endX = 0;
+
+        document.addEventListener('touchstart', (e) => {
+            startX = e.touches[0].clientX;
+        });
+
+        document.addEventListener('touchend', (e) => {
+            endX = e.changedTouches[0].clientX;
+            handleSwipe();
+        });
+
+        function handleSwipe() {
+            const swipeThreshold = 50;
+            const diff = startX - endX;
+
+            if (Math.abs(diff) > swipeThreshold) {
+                if (diff > 0) {
+                    nextSlide();
+                } else {
+                    prevSlide();
+                }
+            }
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            updateProgress();
+            updatePageCounter();
+            updateNavMenu();
+            showFeedback('ยินดีต้อนรับสู่การนำเสนอเกี่ยวกับรัชกาลที่ 5!');
+        });
+
+        // Quick navigation with number keys
+        document.addEventListener('keydown', (e) => {
+            const num = parseInt(e.key);
+            if (num >= 1 && num <= 7) {
+                e.preventDefault();
+                showSlide(num - 1);
+            }
+        });
+    </script>
+</body>
+</html>
